@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <title>Title</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+        <a class="margin-right-nav navbar-brand mr-auto mr-lg-0" href="#">
+            <h4>Hello {{ request.session.user_first_name }}! Read about this trip!</h4>
+        </a>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+            </ul>
+            <a href="/dashboard" class="mr-sm5 my-2 my-sm-0 margin-right">Dashboard</a>
+            <a href="/" class="mr-sm5 my-2 my-sm-0">Logout</a>
+        </div>
+    </nav>
+    <main>
+
+        <!-- <p class="font-weight-bold">{{specific_trip.destination}}</p> -->
+        <h2>Destination: {{specific_trip.destination}}</h2>
+        <div class="border">
+            <p> <span class="font-weight-bold"> Date: </span> {{start_date}}</p>
+            <p><span class="font-weight-bold"> End Date: </span> {{end_date}}</p>
+            <p><span class="font-weight-bold"> Created On: </span> {{created_at}}</p>
+            <p><span class="font-weight-bold"> Last Updated: </span> {{updated_at}}</p>
+            <p><span class="font-weight-bold"> Plan: </span> {{specific_trip.plan}}</p>
+            <p><span class="font-weight-bold"> Created By: </span> {{specific_trip.created_by}}</p>
+        </div>
+        <div>
+            <p class="font-weight-bold" style="color: red">People who've joined the trip:</p>
+            <ul>
+                {% for user in list_of_joined_users %}
+
+                {% if user != request.session.user_first_name %}
+                <!-- where is request.session.user_first_name? and print it to see what it returns. -->
+
+                <li>{{ user }} </li>
+
+                {% endif %}
+
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+</body>
+
+</html>

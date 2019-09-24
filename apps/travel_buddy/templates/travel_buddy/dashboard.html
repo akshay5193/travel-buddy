@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <title>Title</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+        <a class="margin-right-nav navbar-brand mr-auto mr-lg-0" href="#">
+            <h4>Hello {{ request.session.user_first_name }}!</h4>
+        </a>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+            </ul>
+            <a href="/" class="mr-sm5 margin-right">Logout</a>
+            <a href="/trips/new"><button class="btn btn-outline-dark my-2 my-sm-0">Create a new trip!</button></a>
+        </div>
+    </nav>
+    <main>
+        <h5>Your trips:</h5>
+        <table id="everyone-jobs-table" class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Crew</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in loggedin_user.trip.all %}
+                <tr>
+                    <td>
+                        <a href="/trips/{{trip.id}}">{{trip.destination}}</a>
+                    </td>
+                    <td>
+                        <p>{{trip.start_date}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.end_date}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.plan}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.user_trip.count}}</p>
+                    </td>
+                    {% if trip.created_by == loggedin_user.first_name %}
+                    <td>
+                        <a href="/action_remove_trip/{{trip.id}}">Remove</a> | <a
+                            href="/trips/edit/{{trip.id}}">Edit</a>
+                    </td>
+                    {% else %}
+                    <td>
+                        <a href="/trips/cancel/{{trip.id}}">Cancel</a>
+                    </td>
+                    {%  endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h5 style="color: red">Other people's trips</h5>
+        <table id="everyone-jobs-table" class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Organizer</th>
+                    <th scope="col">Want to join?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in all_trips %}
+                {% if trip.created_by != loggedin_user.first_name %}
+                {% if trip not in loggedin_user.trip.all %}
+                <tr>
+                    <td>
+                        <a href="/trips/{{trip.id}}">{{trip.destination}}</a>
+                    </td>
+                    <td>
+                        <p>{{trip.start_date}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.end_date}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.plan}}</p>
+                    </td>
+                    <td>
+                        <p>{{trip.created_by}}</p>
+                    </td>
+                    <td>
+                        <a href="/trips/join/{{trip.id}}">Join</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>
+
+
+
+
+{#{% if messages %}#}
+{#    <h4>Invalid Input(s)</h4>#}
+{#    <ul class="messages">#}
+{#    {% for message in messages %}#}
+{#        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+{#{% endif %}#}
+
+{#{% csrf_token %}#}
+
+{#{% for %}#}
+{#{% endfor %}#}
+
+{#{% if %}#}
+{#{% endif %}#}

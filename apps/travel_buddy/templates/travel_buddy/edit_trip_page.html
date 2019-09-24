@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}">
+    <title>Edit Trip</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light">
+        <a class="margin-right-nav navbar-brand mr-auto mr-lg-0 font-weight-bold" href="#">
+            <h4>Hello {{ request.session.user_first_name }}! Let's edit your trip!</h4>
+        </a>
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="#"></a>
+                </li>
+            </ul>
+            <a href="/" class="mr-sm5">Logout</a>
+        </div>
+    </nav>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+    <main class="margin-auto col-md-4 order-md-2 mb-4 border size-create-form">
+        {% csrf_token %}
+        <form action="/action_edit_trip/{{ specific_trip.id }}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Destination:</label>
+                <input name="input_destination" type="text" class="form-control"
+                    value="{{ specific_trip.destination }}">
+            </div>
+            <div class="mb-3">
+                <label>Start Date:</label>
+                <input name="date_rn" , type="hidden" value="{{ date_rn }}">
+                <input name="input_start_date" type="date" class="height150px scroll-view form-control"
+                    value="{{ start_date }}">
+
+            </div>
+            <div class="mb-3">
+                <label>End Date:</label>
+                <input name="input_end_date" type="date" class="height150px scroll-view form-control"
+                    value="{{ end_date }}">
+            </div>
+            <div class="mb-3">
+                <label class="margin-bottom">Plan:</label>
+                <textarea name="input_plan" type="text" class="form-control">{{ specific_trip.plan }}</textarea>
+            </div>
+            <div>
+
+            </div>
+            <button class="display-block mb-3 btn btn-outline-primary btn-md margin-top" type="submit"><a
+                    href="/dashboard">Cancel</a></button>
+            <button class="display-block mb-3 btn btn-outline-primary btn-md margin-top" type="submit"
+                name="form_button">Submit</button>
+        </form>
+    </main>
+</body>
+
+</html>
